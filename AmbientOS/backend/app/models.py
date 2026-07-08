@@ -14,3 +14,17 @@ class User(Base):
     name = Column(String(100))
 
     email = Column(String(100))
+
+class Device(Base):
+
+    __tablename__ = "devices"
+
+    id = Column(Integer, primary_key=True, index=True)
+
+    device_name = Column(String(100))
+
+    device_type = Column(String(100))
+
+    location = Column(String(100))
+
+    status = Column(String(20)) 
