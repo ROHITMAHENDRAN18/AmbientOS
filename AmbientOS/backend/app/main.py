@@ -1,10 +1,16 @@
+from app.database import engine
+from app.database import Base
+
+import app.models
+
 from fastapi import FastAPI
+
 
 app = FastAPI(
     title="AmbientOS API",
     version="1.0.0"
 )
-
+Base.metadata.create_all(bind=engine)
 @app.get("/")
 def home():
     return {
