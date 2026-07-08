@@ -52,3 +52,31 @@ def add_device(
     db: Session = Depends(get_db)
 ):
     return crud.create_device(db, device)
+
+@app.get("/devices")
+def get_all_devices(
+    db: Session = Depends(get_db)
+):
+    return crud.get_devices(db)
+
+@app.put("/devices/{device_id}/on")
+def turn_on_device(
+    device_id: int,
+    db: Session = Depends(get_db)
+):
+    return crud.update_device_status(
+        db,
+        device_id,
+        "ON"
+    )
+
+@app.put("/devices/{device_id}/off")
+def turn_off_device(
+    device_id: int,
+    db: Session = Depends(get_db)
+):
+    return crud.update_device_status(
+        db,
+        device_id,
+        "OFF"
+    )
