@@ -80,3 +80,17 @@ def turn_off_device(
         device_id,
         "OFF"
     )
+@app.put("/devices/{device_id}/sensors")
+def update_sensor_data(
+    device_id: int,
+    sensor: schemas.SensorUpdate,
+    db: Session = Depends(get_db)
+):
+    return crud.update_sensor_data(
+        db,
+        device_id,
+        sensor.temperature,
+        sensor.humidity,
+        sensor.motion,
+        sensor.light_level
+    )

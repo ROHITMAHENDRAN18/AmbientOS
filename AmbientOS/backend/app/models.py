@@ -1,6 +1,6 @@
 from sqlalchemy import Column
 from sqlalchemy import Integer
-from sqlalchemy import String
+from sqlalchemy import String , Float
 
 from .database import Base
 
@@ -28,3 +28,8 @@ class Device(Base):
     location = Column(String(100))
 
     status = Column(String(20)) 
+    temperature = Column(Float)
+    humidity = Column(Float)
+    motion = Column(String(50))
+    light_level = Column(String(50))
+    

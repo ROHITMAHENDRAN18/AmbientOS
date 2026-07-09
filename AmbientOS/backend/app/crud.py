@@ -9,7 +9,12 @@ def create_device(db: Session, device):
         device_name=device.device_name,
         device_type=device.device_type,
         location=device.location,
-        status=device.status
+        status=device.status,
+
+        temperature=device.temperature,
+        humidity=device.humidity,
+        motion=device.motion,
+        light_level=device.light_level
     )
 
     db.add(new_device)
@@ -42,6 +47,34 @@ def update_device_status(db: Session, device_id: int, status: str):
         return {"message": "Device not found"}
 
     device.status = status
+
+    db.commit()
+    db.refresh(device)
+
+    return device
+
+
+# Update Sensor Data
+def update_sensor_data(
+    db: Session,
+    device_id: int,
+    temperature: float,
+    humidity: float,
+    motion: str,
+    light_level: str
+):
+
+    device = db.query(models.Device).filter(
+        models.Device.id == device_id
+    ).first()
+
+    if device is None:
+        return {"message": "Device not found"}
+
+    device.temperature = temperature
+    device.humidity = humidity
+    device.motion = motion
+    device.light_level = light_level
 
     db.commit()
     db.refresh(device)
