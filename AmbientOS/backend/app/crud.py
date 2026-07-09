@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 from app import models
-
+from app import automation
 
 # Create Device
 def create_device(db: Session, device):
@@ -96,3 +96,16 @@ def delete_device(db: Session, device_id: int):
     db.commit()
 
     return {"message": "Device deleted successfully"}
+# Run AI Automation
+def run_automation(db: Session, device_id: int):
+
+    device = db.query(models.Device).filter(
+        models.Device.id == device_id
+    ).first()
+
+    if device is None:
+        return {
+            "message": "Device not found"
+        }
+
+    return automation.run_automation(device)

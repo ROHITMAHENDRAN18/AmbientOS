@@ -80,6 +80,15 @@ def turn_off_device(
         device_id,
         "OFF"
     )
+@app.post("/automation/run/{device_id}")
+def run_ai_automation(
+    device_id: int,
+    db: Session = Depends(get_db)
+):
+    return crud.run_automation(
+        db,
+        device_id
+    )
 @app.put("/devices/{device_id}/sensors")
 def update_sensor_data(
     device_id: int,
