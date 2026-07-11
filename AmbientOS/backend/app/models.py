@@ -32,4 +32,25 @@ class Device(Base):
     humidity = Column(Float)
     motion = Column(String(50))
     light_level = Column(String(50))
+class AutomationLog(Base):
+
+    __tablename__ = "automation_logs"
+
+    id = Column(Integer, primary_key=True, index=True)
+
+    device_id = Column(Integer)
+
+    device_name = Column(String(100))
+
+    temperature = Column(Float)
+
+    humidity = Column(Float)
+
+    motion = Column(String(50))
+
+    fan_status = Column(String(20))
+
+    light_status = Column(String(20))
+
+    decision = Column(String(255))
     
