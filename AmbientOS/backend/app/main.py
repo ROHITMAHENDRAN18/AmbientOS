@@ -12,6 +12,7 @@ from app.database import SessionLocal
 from app import schemas
 
 from app import crud
+from app import automation
 
 
 app = FastAPI(
@@ -85,10 +86,23 @@ def run_ai_automation(
     device_id: int,
     db: Session = Depends(get_db)
 ):
-    return crud.run_automation(
+
+    device = crud.get_device(db, device_id)
+
+    if device is None:
+        return {
+            "message": "Device not found"
+        }
+
+    result = automation.run_automation(device)
+
+    crud.save_automation_log(
         db,
-        device_id
+        device,
+        result
     )
+
+    return result
 @app.put("/devices/{device_id}/sensors")
 def update_sensor_data(
     device_id: int,
@@ -103,3 +117,9 @@ def update_sensor_data(
         sensor.motion,
         sensor.light_level
     )
+@app.get("/automation/logs")
+def automation_logs(
+    db: Session = Depends(get_db)
+):
+
+    return crud.get_logs(db)

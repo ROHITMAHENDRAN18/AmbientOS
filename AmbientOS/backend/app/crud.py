@@ -109,3 +109,41 @@ def run_automation(db: Session, device_id: int):
         }
 
     return automation.run_automation(device)
+def save_automation_log(
+    db: Session,
+    device,
+    result
+):
+
+    log = models.AutomationLog(
+
+        device_id=device.id,
+
+        device_name=device.device_name,
+
+        temperature=device.temperature,
+
+        humidity=device.humidity,
+
+        motion=device.motion,
+
+        fan_status=result["fan"],
+
+        light_status=result["light"],
+
+        decision=str(result["reason"])
+    )
+
+    db.add(log)
+
+    db.commit()
+
+    db.refresh(log)
+
+    return log
+
+def get_logs(db: Session):
+
+    return db.query(
+        models.AutomationLog
+    ).all()
