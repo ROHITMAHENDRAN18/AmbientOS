@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Sidebar from "./components/Sidebar";
 
@@ -6,6 +6,7 @@ import Dashboard from "./pages/Dashboard";
 import Devices from "./pages/Devices";
 import Analytics from "./pages/Analytics";
 import Automation from "./pages/Automation";
+import AIAssistant from "./components/AIAssistant";
 
 function App() {
 
@@ -42,6 +43,8 @@ function App() {
                         />
 
                     </Routes>
+
+                    <AIAssistant />
 
                 </div>
 
