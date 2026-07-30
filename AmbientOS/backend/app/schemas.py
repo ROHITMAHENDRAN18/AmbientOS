@@ -13,12 +13,31 @@ class Device(BaseModel):
     light_level: str
 
 
+
 class DeviceResponse(Device):
 
     id: int
 
     class Config:
         from_attributes = True
+
+class DeviceUpdate(BaseModel):
+
+    device_name: str
+
+    device_type: str
+
+    location: str
+
+    status: str
+
+    temperature: float
+
+    humidity: float
+
+    motion: str
+
+    light_level: str
 class SensorUpdate(BaseModel):
 
     temperature: float
