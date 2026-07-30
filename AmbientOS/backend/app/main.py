@@ -14,7 +14,7 @@ from app import schemas
 from app import crud
 from app import automation
 from fastapi.middleware.cors import CORSMiddleware
-
+from app.ai import router as ai_router
 tags_metadata = [
 
     {
@@ -345,3 +345,8 @@ def notifications(db: Session = Depends(get_db)):
     devices = crud.get_devices(db)
 
     return notification_engine.generate_notifications(devices)
+app.include_router(
+    ai_router,
+    prefix="/ai",
+    tags=["AI Assistant"]
+)
