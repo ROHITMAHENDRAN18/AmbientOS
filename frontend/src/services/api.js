@@ -53,6 +53,10 @@ export const getAutomationLogs = () =>
     API.get("/automation/logs");
 export const getNotifications = () =>
     API.get("/notifications");
+export const askAI = (message) =>
+    API.post("/ai/chat", {
+        message,
+    });
 
 
 export default API;

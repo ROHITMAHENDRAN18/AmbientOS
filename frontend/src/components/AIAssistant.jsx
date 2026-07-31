@@ -1,55 +1,108 @@
-import { useState } from "react";
 import "./AIAssistant.css";
+import { useState } from "react";
+import { askAI } from "../services/api";
 
 function AIAssistant() {
 
-    const [open, setOpen] = useState(false);
+    const [messages, setMessages] = useState([
+        {
+            sender: "ai",
+            text: "Hello Rohit 👋"
+        }
+    ]);
+
+    const [input, setInput] = useState("");
+
+    async function sendMessage() {
+
+        if (!input.trim()) return;
+
+        const user = {
+            sender: "user",
+            text: input
+        };
+
+        setMessages(prev => [...prev, user]);
+
+        try {
+
+            const response = await askAI(input);
+
+            const ai = {
+                sender: "ai",
+                text: response.data.reply
+            };
+
+            setMessages(prev => [...prev, ai]);
+
+        } catch {
+
+            setMessages(prev => [
+                ...prev,
+                {
+                    sender: "ai",
+                    text: "Server Error"
+                }
+            ]);
+
+        }
+
+        setInput("");
+
+    }
 
     return (
 
-        <>
+        <div className="ai-box">
 
-            <button
+            <div className="ai-header">
 
-                className="ai-float"
+                AmbientOS AI
 
-                onClick={() => setOpen(!open)}
+            </div>
 
-            >
+            <div className="ai-chat">
 
-                🤖
+                {
 
-            </button>
+                    messages.map((msg, index) => (
 
-            {
+                        <div
+                            key={index}
+                            className={
+                                msg.sender === "user"
+                                    ? "user-msg"
+                                    : "ai-msg"
+                            }
+                        >
 
-                open && (
-
-                    <div className="ai-popup">
-
-                        <div className="ai-header">
-
-                            AmbientOS AI
-
-                        </div>
-
-                        <div className="ai-body">
-
-                            Hello Rohit 👋
-
-                            <br /><br />
-
-                            I am your AmbientOS Assistant.
+                            {msg.text}
 
                         </div>
 
-                    </div>
+                    ))
 
-                )
+                }
 
-            }
+            </div>
 
-        </>
+            <div className="ai-input">
+
+                <input
+                    value={input}
+                    onChange={(e) => setInput(e.target.value)}
+                    placeholder="Type a command..."
+                />
+
+                <button onClick={sendMessage}>
+
+                    Send
+
+                </button>
+
+            </div>
+
+        </div>
 
     );
 
